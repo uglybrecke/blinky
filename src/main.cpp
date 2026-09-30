@@ -10,16 +10,21 @@ int main() {
     bn::backdrop::set_color(bn::color(29, 17, 0));
 
     //infinite loop to keep it running
+    //EACH FRAME:
     while(true) {
-        //EACH FRAME:
+        //setting the color to ORANGE default each loop
+        bn::backdrop::set_color(bn::color(29, 17, 0));
+
+        //pressing a to swap the condition from true to false?
+        
         //if _A is pressed change background to pink
         //returns true or false based off whether it's press or not
-        if (bn::keypad::a_pressed()) {
+        if (bn::keypad::a_held()) {
         bn::backdrop::set_color(bn::color(29, 0, 17));
         }
 
-        //EF: if _B is pressed change color
-        if (bn::keypad::b_pressed()) {
+        //if _B is pressed change color
+        if (bn::keypad::b_held()) {
         bn::backdrop::set_color(bn::color(0, 29, 17));
         }
 
