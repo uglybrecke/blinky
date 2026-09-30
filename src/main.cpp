@@ -7,67 +7,22 @@ int main() {
     bn::core::init();
 
     //gonna start manipulating colors via variables instead of magic numbers!
-    int red = 29;
-    int green = 17;
-    int blue = 0;
+    //default gray
+    int red = 15;
+    int green = 15;
+    int blue = 15;
 
-    //setting the color to ORANGE
+    //setting the color to GRAY
     bn::backdrop::set_color(bn::color(red, green, blue));
 
+    //1 second ticker
     int default_back = 0;
 
     //infinite loop to keep it running
     //EACH FRAME:
     while(true) {
-        //setting the color to ORANGE default each loop
-        // bn::backdrop::set_color(bn::color(29, 17, 0));
 
-        //pressing a to swap the condition from true to false?
-        
-        //if _A is pressed change background to pink
-        //returns true or false based off whether it's press or not
-        // if (bn::keypad::a_held()) {
-        // bn::backdrop::set_color(bn::color(29, 0, 17));
-        // }
-
-        // //if _B is pressed change color
-        // if (bn::keypad::b_held()) {
-        // bn::backdrop::set_color(bn::color(0, 29, 17));
-        // }
-
-        //press to add red by stealing blue and green
-        if (bn::keypad::a_held()) {
-            if (red < 30) {
-                red++;
-            } else {
-                red = 30;
-            }
-            if (blue > 0) {
-                blue--;
-            }
-            if (green > 0) {
-                green--;
-            }
-            default_back = 0;
-            bn::backdrop::set_color(bn::color(red, green, blue));
-        }
-
-        //press to add green by stealing red and blue
-        if (bn::keypad::b_held()) {
-            if (green < 30) {
-                green++;
-            } else {
-                green = 30;
-            }
-            if (blue > 0) {
-                blue--;
-            }
-            if (red > 0) {
-                red--;
-            }
-            default_back = 0;
-            bn::backdrop::set_color(bn::color(red, green, blue));
-        }
+        //make the whole process one big if/else
 
         //hold both to steal red and green to add blue;
         if (bn::keypad::b_held() && bn::keypad::a_held()) {
@@ -83,27 +38,63 @@ int main() {
                 green--;
             }
             bn::backdrop::set_color(bn::color(red, green, blue));
-            //set default_orange to zero everytime we do this to avoid flcikering orange!
-            default_back = 0; //maybe 59 so it almost immediatly returns when you let up?
-        }
+            default_back = 0;
 
-        //color stays and starts shifting back after no button presses
-        if (default_back < 60) {
-        default_back++;
-        } else {
-            if (red < 29) {
+        } //press to add red by stealing blue and green
+        else if (bn::keypad::a_held()) {
+            if (red < 30) {
                 red++;
             } else {
-                red = 29; }
-            if (green < 17) {
-                green++;
-            } else if (green > 17) {
-                green--;
+                red = 30;
             }
             if (blue > 0) {
                 blue--;
             }
-            //default_back = 0;
+            if (green > 0) {
+                green--;
+            }
+            default_back = 0;
+            bn::backdrop::set_color(bn::color(red, green, blue));
+
+        } //press to add green by stealing red and blue
+        else if (bn::keypad::b_held()) {
+            if (green < 30) {
+                green++;
+            } else {
+                green = 30;
+            }
+            if (blue > 0) {
+                blue--;
+            }
+            if (red > 0) {
+                red--;
+            }
+            default_back = 0;
+            bn::backdrop::set_color(bn::color(red, green, blue));
+        }
+        
+        //color stays and starts shifting back after no button presses
+        if (default_back < 60) {
+        default_back++;
+        } else {
+            //return red back to middle
+            if (red < 15) {
+                red++;
+            } else if (red > 15) {
+                red--;
+            }
+            //return green back to middle
+            if (green < 15) {
+                green++;
+            } else if (green > 15) {
+                green--;
+            }
+            //return blue back to middle
+            if (blue < 15) {
+                blue++;
+            } else if (blue > 15) {
+                blue--;
+            }            
             bn::backdrop::set_color(bn::color(red, green, blue));
         }
 
