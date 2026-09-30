@@ -6,10 +6,15 @@ int main() {
     //initialize butano
     bn::core::init();
 
-    //setting the color to ORANGE
-    bn::backdrop::set_color(bn::color(29, 17, 0));
+    //gonna start manipulating colors via variables instead of magic numbers!
+    int red = 29;
+    int green = 17;
+    int blue = 0;
 
-    int default_orange = 0;
+    //setting the color to ORANGE
+    bn::backdrop::set_color(bn::color(red, green, blue));
+
+    int default_back = 0;
 
     //infinite loop to keep it running
     //EACH FRAME:
@@ -30,31 +35,60 @@ int main() {
         // bn::backdrop::set_color(bn::color(0, 29, 17));
         // }
 
-        //press to change color
-        if (bn::keypad::a_pressed()) {
-            bn::backdrop::set_color(bn::color(29, 0, 17));
+        //press to add red
+        if (bn::keypad::a_held()) {
+            if (red < 30) {
+                red++;
+            } else {
+                red = 30;
+            }
+            default_back = 0;
+            bn::backdrop::set_color(bn::color(red, green, blue));
         }
 
-        //press to change color
-        if (bn::keypad::b_pressed()) {
-            bn::backdrop::set_color(bn::color(0, 17, 29));
+        //press to add green
+        if (bn::keypad::b_held()) {
+            if (green < 30) {
+                green++;
+            } else {
+                green = 30;
+            }
+            default_back = 0;
+            bn::backdrop::set_color(bn::color(red, green, blue));
         }
 
-        //hold to blend
+        //hold both to add blue;
         if (bn::keypad::b_held() && bn::keypad::a_held()) {
-            bn::backdrop::set_color(bn::color(14, 9, 23));
+            if (blue < 30) {
+                blue++;
+            } else {
+                blue = 30;
+            }
+            bn::backdrop::set_color(bn::color(red, green, blue));
             //set default_orange to zero everytime we do this to avoid flcikering orange!
-            default_orange = 0; 
+            default_back = 0; //maybe 59 so it almost immediatly returns when you let up?
         }
 
-        //shoulder buttons a
-
-        //color stays for 1 sec after pressed before returning
-        if (default_orange < 60) {
-        default_orange++;
+        //color stays for 1 sec after pressed before starting to return
+        if (default_back < 60) {
+        default_back++;
         } else {
-        bn::backdrop::set_color(bn::color(29, 17, 0));
-        default_orange = 0;
+            if (red < 29) {
+                red++;
+            } else {
+                red = 29; }
+            if (green < 17) {
+                green++;
+            } else {
+                green--;
+            }
+            if (blue > 0) {
+                blue--;
+            } else {
+                blue++;
+            }
+            //default_back = 0;
+            bn::backdrop::set_color(bn::color(red, green, blue));
         }
 
         bn::core::update();
