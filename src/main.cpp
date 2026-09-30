@@ -35,41 +35,59 @@ int main() {
         // bn::backdrop::set_color(bn::color(0, 29, 17));
         // }
 
-        //press to add red
+        //press to add red by stealing blue and green
         if (bn::keypad::a_held()) {
             if (red < 30) {
                 red++;
             } else {
                 red = 30;
             }
+            if (blue > 0) {
+                blue--;
+            }
+            if (green > 0) {
+                green--;
+            }
             default_back = 0;
             bn::backdrop::set_color(bn::color(red, green, blue));
         }
 
-        //press to add green
+        //press to add green by stealing red and blue
         if (bn::keypad::b_held()) {
             if (green < 30) {
                 green++;
             } else {
                 green = 30;
             }
+            if (blue > 0) {
+                blue--;
+            }
+            if (red > 0) {
+                red--;
+            }
             default_back = 0;
             bn::backdrop::set_color(bn::color(red, green, blue));
         }
 
-        //hold both to add blue;
+        //hold both to steal red and green to add blue;
         if (bn::keypad::b_held() && bn::keypad::a_held()) {
             if (blue < 30) {
                 blue++;
             } else {
                 blue = 30;
             }
+            if (red > 0) {
+                red--;
+            }
+            if (green > 0) {
+                green--;
+            }
             bn::backdrop::set_color(bn::color(red, green, blue));
             //set default_orange to zero everytime we do this to avoid flcikering orange!
             default_back = 0; //maybe 59 so it almost immediatly returns when you let up?
         }
 
-        //color stays for 1 sec after pressed before starting to return
+        //color stays and starts shifting back after no button presses
         if (default_back < 60) {
         default_back++;
         } else {
@@ -79,13 +97,11 @@ int main() {
                 red = 29; }
             if (green < 17) {
                 green++;
-            } else {
+            } else if (green > 17) {
                 green--;
             }
             if (blue > 0) {
                 blue--;
-            } else {
-                blue++;
             }
             //default_back = 0;
             bn::backdrop::set_color(bn::color(red, green, blue));
